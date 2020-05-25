@@ -3,136 +3,136 @@
   xmlns:xhtml="http://www.w3.org/1999/xhtml">
   
   <url>
-    <loc>http://dfdx.me/about/</loc>
+    <loc>https://dfdx.me/about/</loc>
     <lastmod>2020-05-25T00:00:00+00:00</lastmod>
   </url>
   
   <url>
-    <loc>http://dfdx.me/</loc>
+    <loc>https://dfdx.me/</loc>
     <lastmod>2020-05-25T00:00:00+00:00</lastmod>
   </url>
   
   <url>
-    <loc>http://dfdx.me/tags/flink/</loc>
+    <loc>https://dfdx.me/tags/flink/</loc>
     <lastmod>2020-05-20T00:00:00+00:00</lastmod>
   </url>
   
   <url>
-    <loc>http://dfdx.me/tags/performance/</loc>
+    <loc>https://dfdx.me/tags/performance/</loc>
     <lastmod>2020-05-20T00:00:00+00:00</lastmod>
   </url>
   
   <url>
-    <loc>http://dfdx.me/post/</loc>
+    <loc>https://dfdx.me/post/</loc>
     <lastmod>2020-05-20T00:00:00+00:00</lastmod>
   </url>
   
   <url>
-    <loc>http://dfdx.me/post/2020_flink_serialization/</loc>
+    <loc>https://dfdx.me/post/2020_flink_serialization/</loc>
     <lastmod>2020-05-20T00:00:00+00:00</lastmod>
   </url>
   
   <url>
-    <loc>http://dfdx.me/tags/</loc>
+    <loc>https://dfdx.me/tags/</loc>
     <lastmod>2020-05-20T00:00:00+00:00</lastmod>
   </url>
   
   <url>
-    <loc>http://dfdx.me/talks/scalaconf19_graalvm/</loc>
+    <loc>https://dfdx.me/talks/scalaconf19_graalvm/</loc>
     <lastmod>2019-11-26T00:00:00+00:00</lastmod>
   </url>
   
   <url>
-    <loc>http://dfdx.me/tags/graalvm/</loc>
+    <loc>https://dfdx.me/tags/graalvm/</loc>
     <lastmod>2019-11-26T00:00:00+00:00</lastmod>
   </url>
   
   <url>
-    <loc>http://dfdx.me/tags/scala/</loc>
+    <loc>https://dfdx.me/tags/scala/</loc>
     <lastmod>2019-11-26T00:00:00+00:00</lastmod>
   </url>
   
   <url>
-    <loc>http://dfdx.me/talks/</loc>
+    <loc>https://dfdx.me/talks/</loc>
     <lastmod>2019-11-26T00:00:00+00:00</lastmod>
   </url>
   
   <url>
-    <loc>http://dfdx.me/tags/data-processing/</loc>
+    <loc>https://dfdx.me/tags/data-processing/</loc>
     <lastmod>2019-10-09T00:00:00+00:00</lastmod>
   </url>
   
   <url>
-    <loc>http://dfdx.me/talks/ff19_state_serialization/</loc>
+    <loc>https://dfdx.me/talks/ff19_state_serialization/</loc>
     <lastmod>2019-10-09T00:00:00+00:00</lastmod>
   </url>
   
   <url>
-    <loc>http://dfdx.me/tags/learn-to-rank/</loc>
+    <loc>https://dfdx.me/tags/learn-to-rank/</loc>
     <lastmod>2019-07-10T00:00:00+00:00</lastmod>
   </url>
   
   <url>
-    <loc>http://dfdx.me/tags/ml/</loc>
+    <loc>https://dfdx.me/tags/ml/</loc>
     <lastmod>2019-07-10T00:00:00+00:00</lastmod>
   </url>
   
   <url>
-    <loc>http://dfdx.me/talks/mices19_personalized_search/</loc>
+    <loc>https://dfdx.me/talks/mices19_personalized_search/</loc>
     <lastmod>2019-07-10T00:00:00+00:00</lastmod>
   </url>
   
   <url>
-    <loc>http://dfdx.me/tags/search/</loc>
+    <loc>https://dfdx.me/tags/search/</loc>
     <lastmod>2019-07-10T00:00:00+00:00</lastmod>
   </url>
   
   <url>
-    <loc>http://dfdx.me/cv/</loc>
+    <loc>https://dfdx.me/cv/</loc>
     <lastmod>2019-02-28T00:00:00+00:00</lastmod>
   </url>
   
   <url>
-    <loc>http://dfdx.me/talks/scalar18_case_classes/</loc>
+    <loc>https://dfdx.me/talks/scalar18_case_classes/</loc>
     <lastmod>2018-04-07T00:00:00+00:00</lastmod>
   </url>
   
   <url>
-    <loc>http://dfdx.me/tags/memory/</loc>
+    <loc>https://dfdx.me/tags/memory/</loc>
     <lastmod>2018-04-07T00:00:00+00:00</lastmod>
   </url>
   
   <url>
-    <loc>http://dfdx.me/tags/2pc/</loc>
+    <loc>https://dfdx.me/tags/2pc/</loc>
     <lastmod>2016-11-07T00:00:00+00:00</lastmod>
   </url>
   
   <url>
-    <loc>http://dfdx.me/tags/distributed-systems/</loc>
+    <loc>https://dfdx.me/tags/distributed-systems/</loc>
     <lastmod>2016-11-07T00:00:00+00:00</lastmod>
   </url>
   
   <url>
-    <loc>http://dfdx.me/talks/hl16_distsys/</loc>
+    <loc>https://dfdx.me/talks/hl16_distsys/</loc>
     <lastmod>2016-11-07T00:00:00+00:00</lastmod>
   </url>
   
   <url>
-    <loc>http://dfdx.me/tags/jepsen/</loc>
+    <loc>https://dfdx.me/tags/jepsen/</loc>
     <lastmod>2016-11-07T00:00:00+00:00</lastmod>
   </url>
   
   <url>
-    <loc>http://dfdx.me/tags/raft/</loc>
+    <loc>https://dfdx.me/tags/raft/</loc>
     <lastmod>2016-11-07T00:00:00+00:00</lastmod>
   </url>
   
   <url>
-    <loc>http://dfdx.me/categories/</loc>
+    <loc>https://dfdx.me/categories/</loc>
   </url>
   
   <url>
-    <loc>http://dfdx.me/series/</loc>
+    <loc>https://dfdx.me/series/</loc>
   </url>
   
 </urlset>

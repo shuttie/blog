@@ -2,13 +2,13 @@
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
     <title>Series on Roman Grebennikov</title>
-    <link>http://dfdx.me/series/</link>
+    <link>https://dfdx.me/series/</link>
     <description>Recent content in Series on dfdx.me</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
     <copyright>© Roman Grebennikov</copyright>
     
-    <atom:link href="http://dfdx.me/series/index.xml" rel="self" type="application/rss+xml" />
+    <atom:link href="https://dfdx.me/series/index.xml" rel="self" type="application/rss+xml" />
     
     
   </channel>

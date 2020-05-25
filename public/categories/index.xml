@@ -2,13 +2,13 @@
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
     <title>Categories on Roman Grebennikov</title>
-    <link>http://dfdx.me/categories/</link>
+    <link>https://dfdx.me/categories/</link>
     <description>Recent content in Categories on dfdx.me</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
     <copyright>© Roman Grebennikov</copyright>
     
-    <atom:link href="http://dfdx.me/categories/index.xml" rel="self" type="application/rss+xml" />
+    <atom:link href="https://dfdx.me/categories/index.xml" rel="self" type="application/rss+xml" />
     
     
   </channel>
