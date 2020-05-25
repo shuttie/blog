@@ -13,7 +13,7 @@ pygmentsstyle = "colorful"
 pygmentscodefences = true
 pygmentscodefencesguesssyntax = true
 
-googleAnalytics = ""
+googleAnalytics = "UA-167421043-1"
 disqusShortname = ""
 
 [taxonomies]
