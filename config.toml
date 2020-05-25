@@ -109,6 +109,12 @@ icon = "fab fa-stack-overflow"
 url = "https://stackoverflow.com/users/2622697/shutty"
 
 [[params.social]]
+name = "Github"
+icon = "fab fa-github"
+url = "https://github.com/shuttie"
+
+
+[[params.social]]
 name = "Email"
 icon = "fas fa-envelope"
 url = "mailto://grv@dfdx.me"
