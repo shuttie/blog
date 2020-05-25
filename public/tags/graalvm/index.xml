@@ -2,21 +2,21 @@
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
     <title>graalvm on Roman Grebennikov</title>
-    <link>http://example.org/tags/graalvm/</link>
-    <description>Recent content in graalvm on example.org</description>
+    <link>http://dfdx.me/tags/graalvm/</link>
+    <description>Recent content in graalvm on dfdx.me</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
     <copyright>© Roman Grebennikov</copyright>
     <lastBuildDate>Tue, 26 Nov 2019 00:00:00 +0000</lastBuildDate>
     
-    <atom:link href="http://example.org/tags/graalvm/index.xml" rel="self" type="application/rss+xml" />
+    <atom:link href="http://dfdx.me/tags/graalvm/index.xml" rel="self" type="application/rss+xml" />
     
     <item>
       <title>Getting depressed with GraalVM [russian]</title>
-      <link>http://example.org/talks/scalaconf19_graalvm/</link>
+      <link>http://dfdx.me/talks/scalaconf19_graalvm/</link>
       <pubDate>Tue, 26 Nov 2019 00:00:00 +0000</pubDate>
       
-      <guid>http://example.org/talks/scalaconf19_graalvm/</guid>
+      <guid>http://dfdx.me/talks/scalaconf19_graalvm/</guid>
       <description>
       
       О GraalVM не слышал только ленивый: новые оптимизации, интеграция с Python/Ruby/JS и AOT-компиляция в нативный код. На любой JVM-конференции из каждого утюга рассказывают, как изменится наша жизнь к лучшему с приходом коммунизма^W этой технологии

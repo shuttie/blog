@@ -2,21 +2,21 @@
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
     <title>Roman Grebennikov</title>
-    <link>http://example.org/</link>
-    <description>Recent content on example.org</description>
+    <link>http://dfdx.me/</link>
+    <description>Recent content on dfdx.me</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
     <copyright>© Roman Grebennikov</copyright>
     <lastBuildDate>Mon, 25 May 2020 00:00:00 +0000</lastBuildDate>
     
-    <atom:link href="http://example.org/index.xml" rel="self" type="application/rss+xml" />
+    <atom:link href="http://dfdx.me/index.xml" rel="self" type="application/rss+xml" />
     
     <item>
       <title>About</title>
-      <link>http://example.org/about/</link>
+      <link>http://dfdx.me/about/</link>
       <pubDate>Mon, 25 May 2020 00:00:00 +0000</pubDate>
       
-      <guid>http://example.org/about/</guid>
+      <guid>http://dfdx.me/about/</guid>
       <description>
       
       Roman Grebennikov&#39;s about page
@@ -25,10 +25,10 @@
     </item>
     <item>
       <title>Speeding up Apache Flink string serialization</title>
-      <link>http://example.org/post/2020_flink_serialization/</link>
+      <link>http://dfdx.me/post/2020_flink_serialization/</link>
       <pubDate>Wed, 20 May 2020 00:00:00 +0000</pubDate>
       
-      <guid>http://example.org/post/2020_flink_serialization/</guid>
+      <guid>http://dfdx.me/post/2020_flink_serialization/</guid>
       <description>
       
       Because it can be extremely slow in some not-so-rare cases
@@ -37,10 +37,10 @@
     </item>
     <item>
       <title>Getting depressed with GraalVM [russian]</title>
-      <link>http://example.org/talks/scalaconf19_graalvm/</link>
+      <link>http://dfdx.me/talks/scalaconf19_graalvm/</link>
       <pubDate>Tue, 26 Nov 2019 00:00:00 +0000</pubDate>
       
-      <guid>http://example.org/talks/scalaconf19_graalvm/</guid>
+      <guid>http://dfdx.me/talks/scalaconf19_graalvm/</guid>
       <description>
       
       О GraalVM не слышал только ленивый: новые оптимизации, интеграция с Python/Ruby/JS и AOT-компиляция в нативный код. На любой JVM-конференции из каждого утюга рассказывают, как изменится наша жизнь к лучшему с приходом коммунизма^W этой технологии
@@ -49,10 +49,10 @@
     </item>
     <item>
       <title>Extending flink state serialization</title>
-      <link>http://example.org/talks/ff19_state_serialization/</link>
+      <link>http://dfdx.me/talks/ff19_state_serialization/</link>
       <pubDate>Wed, 09 Oct 2019 00:00:00 +0000</pubDate>
       
-      <guid>http://example.org/talks/ff19_state_serialization/</guid>
+      <guid>http://dfdx.me/talks/ff19_state_serialization/</guid>
       <description>
       
       Operations with Flink state are a common source of performance issues for a typical stateful stream processing application. One tiny mistake can easily make your job to spend most of a precious CPU time in serialization and inflate a checkpoint size to the sky. In this talk we’ll focus on a Flink serialization framework and common problems happening around it
@@ -61,10 +61,10 @@
     </item>
     <item>
       <title>Personalizing search results in real-time</title>
-      <link>http://example.org/talks/mices19_personalized_search/</link>
+      <link>http://dfdx.me/talks/mices19_personalized_search/</link>
       <pubDate>Wed, 10 Jul 2019 00:00:00 +0000</pubDate>
       
-      <guid>http://example.org/talks/mices19_personalized_search/</guid>
+      <guid>http://dfdx.me/talks/mices19_personalized_search/</guid>
       <description>
       
       You type a query in a search box and get great search results back. Sounds pretty simple, right? But the same search results ranking can be great for you, but not for someone else. 
@@ -74,10 +74,10 @@ With widely known Learn-to-Rank process, you need to deduce which search item wa
     </item>
     <item>
       <title>About</title>
-      <link>http://example.org/cv/</link>
+      <link>http://dfdx.me/cv/</link>
       <pubDate>Thu, 28 Feb 2019 00:00:00 +0000</pubDate>
       
-      <guid>http://example.org/cv/</guid>
+      <guid>http://dfdx.me/cv/</guid>
       <description>
       
       Hugo, the world’s fastest framework for building websites
@@ -86,10 +86,10 @@ With widely known Learn-to-Rank process, you need to deduce which search item wa
     </item>
     <item>
       <title>Case classes ate my RAM</title>
-      <link>http://example.org/talks/scalar18_case_classes/</link>
+      <link>http://dfdx.me/talks/scalar18_case_classes/</link>
       <pubDate>Sat, 07 Apr 2018 00:00:00 +0000</pubDate>
       
-      <guid>http://example.org/talks/scalar18_case_classes/</guid>
+      <guid>http://dfdx.me/talks/scalar18_case_classes/</guid>
       <description>
       
       Case class is a most widely used way to model your data. But when the data is huge, you can amazingly discover that only a tiny 10% of your precious RAM used for the data itself. But where is other 90%?
@@ -98,10 +98,10 @@ With widely known Learn-to-Rank process, you need to deduce which search item wa
     </item>
     <item>
       <title>Fear and loathing in distributed systems [russian]</title>
-      <link>http://example.org/talks/hl16_distsys/</link>
+      <link>http://dfdx.me/talks/hl16_distsys/</link>
       <pubDate>Mon, 07 Nov 2016 00:00:00 +0000</pubDate>
       
-      <guid>http://example.org/talks/hl16_distsys/</guid>
+      <guid>http://dfdx.me/talks/hl16_distsys/</guid>
       <description>
       
       Если ваше приложение внезапно перестаёт помещаться на один сервер, то надо ставить ещё N серверов рядом, ведь ничего же сложного, разве что-то может пойти не так?

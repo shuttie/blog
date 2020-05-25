@@ -2,21 +2,21 @@
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
     <title>performance on Roman Grebennikov</title>
-    <link>http://example.org/tags/performance/</link>
-    <description>Recent content in performance on example.org</description>
+    <link>http://dfdx.me/tags/performance/</link>
+    <description>Recent content in performance on dfdx.me</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
     <copyright>© Roman Grebennikov</copyright>
     <lastBuildDate>Wed, 20 May 2020 00:00:00 +0000</lastBuildDate>
     
-    <atom:link href="http://example.org/tags/performance/index.xml" rel="self" type="application/rss+xml" />
+    <atom:link href="http://dfdx.me/tags/performance/index.xml" rel="self" type="application/rss+xml" />
     
     <item>
       <title>Speeding up Apache Flink string serialization</title>
-      <link>http://example.org/post/2020_flink_serialization/</link>
+      <link>http://dfdx.me/post/2020_flink_serialization/</link>
       <pubDate>Wed, 20 May 2020 00:00:00 +0000</pubDate>
       
-      <guid>http://example.org/post/2020_flink_serialization/</guid>
+      <guid>http://dfdx.me/post/2020_flink_serialization/</guid>
       <description>
       
       Because it can be extremely slow in some not-so-rare cases
@@ -25,10 +25,10 @@
     </item>
     <item>
       <title>Getting depressed with GraalVM [russian]</title>
-      <link>http://example.org/talks/scalaconf19_graalvm/</link>
+      <link>http://dfdx.me/talks/scalaconf19_graalvm/</link>
       <pubDate>Tue, 26 Nov 2019 00:00:00 +0000</pubDate>
       
-      <guid>http://example.org/talks/scalaconf19_graalvm/</guid>
+      <guid>http://dfdx.me/talks/scalaconf19_graalvm/</guid>
       <description>
       
       О GraalVM не слышал только ленивый: новые оптимизации, интеграция с Python/Ruby/JS и AOT-компиляция в нативный код. На любой JVM-конференции из каждого утюга рассказывают, как изменится наша жизнь к лучшему с приходом коммунизма^W этой технологии
@@ -37,10 +37,10 @@
     </item>
     <item>
       <title>Extending flink state serialization</title>
-      <link>http://example.org/talks/ff19_state_serialization/</link>
+      <link>http://dfdx.me/talks/ff19_state_serialization/</link>
       <pubDate>Wed, 09 Oct 2019 00:00:00 +0000</pubDate>
       
-      <guid>http://example.org/talks/ff19_state_serialization/</guid>
+      <guid>http://dfdx.me/talks/ff19_state_serialization/</guid>
       <description>
       
       Operations with Flink state are a common source of performance issues for a typical stateful stream processing application. One tiny mistake can easily make your job to spend most of a precious CPU time in serialization and inflate a checkpoint size to the sky. In this talk we’ll focus on a Flink serialization framework and common problems happening around it
@@ -49,10 +49,10 @@
     </item>
     <item>
       <title>Case classes ate my RAM</title>
-      <link>http://example.org/talks/scalar18_case_classes/</link>
+      <link>http://dfdx.me/talks/scalar18_case_classes/</link>
       <pubDate>Sat, 07 Apr 2018 00:00:00 +0000</pubDate>
       
-      <guid>http://example.org/talks/scalar18_case_classes/</guid>
+      <guid>http://dfdx.me/talks/scalar18_case_classes/</guid>
       <description>
       
       Case class is a most widely used way to model your data. But when the data is huge, you can amazingly discover that only a tiny 10% of your precious RAM used for the data itself. But where is other 90%?

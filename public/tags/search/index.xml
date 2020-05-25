@@ -2,21 +2,21 @@
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
     <title>search on Roman Grebennikov</title>
-    <link>http://example.org/tags/search/</link>
-    <description>Recent content in search on example.org</description>
+    <link>http://dfdx.me/tags/search/</link>
+    <description>Recent content in search on dfdx.me</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
     <copyright>© Roman Grebennikov</copyright>
     <lastBuildDate>Wed, 10 Jul 2019 00:00:00 +0000</lastBuildDate>
     
-    <atom:link href="http://example.org/tags/search/index.xml" rel="self" type="application/rss+xml" />
+    <atom:link href="http://dfdx.me/tags/search/index.xml" rel="self" type="application/rss+xml" />
     
     <item>
       <title>Personalizing search results in real-time</title>
-      <link>http://example.org/talks/mices19_personalized_search/</link>
+      <link>http://dfdx.me/talks/mices19_personalized_search/</link>
       <pubDate>Wed, 10 Jul 2019 00:00:00 +0000</pubDate>
       
-      <guid>http://example.org/talks/mices19_personalized_search/</guid>
+      <guid>http://dfdx.me/talks/mices19_personalized_search/</guid>
       <description>
       
       You type a query in a search box and get great search results back. Sounds pretty simple, right? But the same search results ranking can be great for you, but not for someone else. 

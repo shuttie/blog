@@ -2,21 +2,21 @@
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
     <title>Tags on Roman Grebennikov</title>
-    <link>http://example.org/tags/</link>
-    <description>Recent content in Tags on example.org</description>
+    <link>http://dfdx.me/tags/</link>
+    <description>Recent content in Tags on dfdx.me</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
     <copyright>© Roman Grebennikov</copyright>
     <lastBuildDate>Wed, 20 May 2020 00:00:00 +0000</lastBuildDate>
     
-    <atom:link href="http://example.org/tags/index.xml" rel="self" type="application/rss+xml" />
+    <atom:link href="http://dfdx.me/tags/index.xml" rel="self" type="application/rss+xml" />
     
     <item>
       <title>flink</title>
-      <link>http://example.org/tags/flink/</link>
+      <link>http://dfdx.me/tags/flink/</link>
       <pubDate>Wed, 20 May 2020 00:00:00 +0000</pubDate>
       
-      <guid>http://example.org/tags/flink/</guid>
+      <guid>http://dfdx.me/tags/flink/</guid>
       <description>
       
       
@@ -25,10 +25,10 @@
     </item>
     <item>
       <title>performance</title>
-      <link>http://example.org/tags/performance/</link>
+      <link>http://dfdx.me/tags/performance/</link>
       <pubDate>Wed, 20 May 2020 00:00:00 +0000</pubDate>
       
-      <guid>http://example.org/tags/performance/</guid>
+      <guid>http://dfdx.me/tags/performance/</guid>
       <description>
       
       
@@ -37,10 +37,10 @@
     </item>
     <item>
       <title>graalvm</title>
-      <link>http://example.org/tags/graalvm/</link>
+      <link>http://dfdx.me/tags/graalvm/</link>
       <pubDate>Tue, 26 Nov 2019 00:00:00 +0000</pubDate>
       
-      <guid>http://example.org/tags/graalvm/</guid>
+      <guid>http://dfdx.me/tags/graalvm/</guid>
       <description>
       
       
@@ -49,10 +49,10 @@
     </item>
     <item>
       <title>scala</title>
-      <link>http://example.org/tags/scala/</link>
+      <link>http://dfdx.me/tags/scala/</link>
       <pubDate>Tue, 26 Nov 2019 00:00:00 +0000</pubDate>
       
-      <guid>http://example.org/tags/scala/</guid>
+      <guid>http://dfdx.me/tags/scala/</guid>
       <description>
       
       
@@ -61,10 +61,10 @@
     </item>
     <item>
       <title>data processing</title>
-      <link>http://example.org/tags/data-processing/</link>
+      <link>http://dfdx.me/tags/data-processing/</link>
       <pubDate>Wed, 09 Oct 2019 00:00:00 +0000</pubDate>
       
-      <guid>http://example.org/tags/data-processing/</guid>
+      <guid>http://dfdx.me/tags/data-processing/</guid>
       <description>
       
       
@@ -73,10 +73,10 @@
     </item>
     <item>
       <title>learn to rank</title>
-      <link>http://example.org/tags/learn-to-rank/</link>
+      <link>http://dfdx.me/tags/learn-to-rank/</link>
       <pubDate>Wed, 10 Jul 2019 00:00:00 +0000</pubDate>
       
-      <guid>http://example.org/tags/learn-to-rank/</guid>
+      <guid>http://dfdx.me/tags/learn-to-rank/</guid>
       <description>
       
       
@@ -85,10 +85,10 @@
     </item>
     <item>
       <title>ML</title>
-      <link>http://example.org/tags/ml/</link>
+      <link>http://dfdx.me/tags/ml/</link>
       <pubDate>Wed, 10 Jul 2019 00:00:00 +0000</pubDate>
       
-      <guid>http://example.org/tags/ml/</guid>
+      <guid>http://dfdx.me/tags/ml/</guid>
       <description>
       
       
@@ -97,10 +97,10 @@
     </item>
     <item>
       <title>search</title>
-      <link>http://example.org/tags/search/</link>
+      <link>http://dfdx.me/tags/search/</link>
       <pubDate>Wed, 10 Jul 2019 00:00:00 +0000</pubDate>
       
-      <guid>http://example.org/tags/search/</guid>
+      <guid>http://dfdx.me/tags/search/</guid>
       <description>
       
       
@@ -109,10 +109,10 @@
     </item>
     <item>
       <title>memory</title>
-      <link>http://example.org/tags/memory/</link>
+      <link>http://dfdx.me/tags/memory/</link>
       <pubDate>Sat, 07 Apr 2018 00:00:00 +0000</pubDate>
       
-      <guid>http://example.org/tags/memory/</guid>
+      <guid>http://dfdx.me/tags/memory/</guid>
       <description>
       
       
@@ -121,10 +121,10 @@
     </item>
     <item>
       <title>2pc</title>
-      <link>http://example.org/tags/2pc/</link>
+      <link>http://dfdx.me/tags/2pc/</link>
       <pubDate>Mon, 07 Nov 2016 00:00:00 +0000</pubDate>
       
-      <guid>http://example.org/tags/2pc/</guid>
+      <guid>http://dfdx.me/tags/2pc/</guid>
       <description>
       
       
@@ -133,10 +133,10 @@
     </item>
     <item>
       <title>distributed systems</title>
-      <link>http://example.org/tags/distributed-systems/</link>
+      <link>http://dfdx.me/tags/distributed-systems/</link>
       <pubDate>Mon, 07 Nov 2016 00:00:00 +0000</pubDate>
       
-      <guid>http://example.org/tags/distributed-systems/</guid>
+      <guid>http://dfdx.me/tags/distributed-systems/</guid>
       <description>
       
       
@@ -145,10 +145,10 @@
     </item>
     <item>
       <title>jepsen</title>
-      <link>http://example.org/tags/jepsen/</link>
+      <link>http://dfdx.me/tags/jepsen/</link>
       <pubDate>Mon, 07 Nov 2016 00:00:00 +0000</pubDate>
       
-      <guid>http://example.org/tags/jepsen/</guid>
+      <guid>http://dfdx.me/tags/jepsen/</guid>
       <description>
       
       
@@ -157,10 +157,10 @@
     </item>
     <item>
       <title>raft</title>
-      <link>http://example.org/tags/raft/</link>
+      <link>http://dfdx.me/tags/raft/</link>
       <pubDate>Mon, 07 Nov 2016 00:00:00 +0000</pubDate>
       
-      <guid>http://example.org/tags/raft/</guid>
+      <guid>http://dfdx.me/tags/raft/</guid>
       <description>
       
       
