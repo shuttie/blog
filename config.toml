@@ -4,7 +4,7 @@ defaultContentLanguage = "en"
 author = "Roman Grebennikov"
 title = "Roman Grebennikov"
 theme = "vitae"
-paginate = 5
+paginate = 10
 enableRobotsTXT = true
 
 copyright = "© Roman Grebennikov"
@@ -48,7 +48,7 @@ disqusShortname = ""
 	#favicon = true
 
 	# Add list of sections that should show up on the homepage
-        mainSections = ["talks"]
+        mainSections = ["talks", "post"]
 
 	# Add list of Sections/Types that should no be considered by RSS
 	#nofeedSections = ["post"]
