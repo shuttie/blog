@@ -1,0 +1,119 @@
+baseURL = "http://example.org/"
+languageCode = "en-us"
+defaultContentLanguage = "en"
+author = "Roman Grebennikov"
+title = "Roman Grebennikov"
+theme = "vitae"
+paginate = 5
+enableRobotsTXT = true
+
+copyright = "© Roman Grebennikov"
+
+pygmentsstyle = "colorful"
+pygmentscodefences = true
+pygmentscodefencesguesssyntax = true
+
+googleAnalytics = ""
+disqusShortname = ""
+
+[taxonomies]
+	tag = "tags"
+	category = "categories"
+	series = "series"
+
+[params]
+
+	# Add meta keywords in head part (Site Keywords or Tags of Page)
+	keywords = ["grebennikov","blog"]
+
+	# Add meta description in head part
+	description = "A personal page."
+
+	# Add pagetitle to homepage <title> tag
+	pagetitle = "All about me"
+
+	# Add a subtitle to your website
+	subtitle = "A personal blog & info page"
+
+	# Activate to show authors on pages if available
+	#listAuthor = true
+
+	# Add math typesetting with KaTeX (Global with this Param)
+	math = true
+
+	# Optional 80x80 avatar image.
+	avatar = "/img/avatar.jpg"
+
+	# Optional favicons for website
+	#favicon = true
+
+	# Add list of sections that should show up on the homepage
+        mainSections = ["talks"]
+
+	# Add list of Sections/Types that should no be considered by RSS
+	#nofeedSections = ["post"]
+
+	# Deactivate Taxonomies for specific page types
+	#disableTaxoTypes = [""]
+
+	# Content types to disable Disqus on.
+	disableDisqusTypes = ["page"]
+
+	# Custom CSS applied to default styles.
+	customCSS = "css/custom.css"
+
+# Nav.
+[[menu.main]]
+name = "Home"
+url = "/"
+weight = 1
+
+[[menu.main]]
+name = "Posts"
+url = "/post"
+weight = 2
+
+[[menu.main]]
+name = "Talks"
+url = "/talks"
+weight = 3
+
+[[menu.main]]
+name = "CV"
+url = "/files/grebennikov_cv_2020.pdf"
+weight = 4
+
+[[menu.main]]
+name = "About"
+url = "/about"
+weight = 5
+
+[[params.social]]
+name = "Github"
+icon = "fab fa-github"
+url = "https://github.com/shuttie"
+
+[[params.social]]
+name = "Linkedin"
+icon = "fab fa-linkedin"
+url = "https://www.linkedin.com/in/romangrebennikov/"
+
+[[params.social]]
+name = "Twitter"
+icon = "fab fa-twitter"
+url = "https://www.twitter.com/public_void_grv"
+
+[[params.social]]
+name = "Twitter"
+icon = "fab fa-stack-overflow"
+url = "https://stackoverflow.com/users/2622697/shutty"
+
+[[params.social]]
+name = "Email"
+icon = "fas fa-envelope"
+url = "mailto://grv@dfdx.me"
+
+[[params.social]]
+name = "RSS"
+icon = "fas fa-rss"
+url = "/index.xml"
