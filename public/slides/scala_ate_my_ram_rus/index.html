@@ -1,0 +1,403 @@
+<!doctype html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+
+		<title>Case classes ate my RAM</title>
+
+		<link rel="stylesheet" href="css/reveal.css">
+		<link rel="stylesheet" href="css/theme/beige.css">
+
+		<!-- Theme used for syntax highlighting of code -->
+		<link rel="stylesheet" href="lib/css/zenburn.css">
+
+		<!-- Printing and PDF exports -->
+		<script>
+			var link = document.createElement( 'link' );
+			link.rel = 'stylesheet';
+			link.type = 'text/css';
+			link.href = window.location.search.match( /print-pdf/gi ) ? 'css/print/pdf.css' : 'css/print/paper.css';
+			document.getElementsByTagName( 'head' )[0].appendChild( link );
+		</script>
+		<style>
+		.reveal pre {
+			width: 100%,
+			padding: 40px;
+			font-size: 27px;
+			line-height: 30px;
+		}
+		.reveal pre code {
+			padding-left: 20px;
+		}
+		</style>
+	</head>
+	<body>
+		<div class="reveal">
+			<div class="slides">
+				<section>
+					<img src="images/main.png" class="plain" height="300px" style="margin: 0px;"/>
+					<h1 style="margin: 0px 0px; line-height: 1em;">Скала</h1>
+					<h2 style="margin: 0px 0px;">всю память сожрала</h2>
+					<p><small>Grebennikov Roman / <a href="http://findify.io">findify.io</a> / <a href="http://twitter.com/public_void_grv">@public_void_grv</a></small></p>
+					<p><small>sug-vrn 2018</small></p>
+				</section>
+				<section>
+          <h2>Кто это?</h2>
+					<img src="images/grebennikov.jpg" height="250px"/>
+					<p>
+						<img class="plain" height="60px" src="images/sociohub.png"/>
+						<img class="plain" height="60px" src="images/findify.png"/>
+					</p>
+					<p>
+						<small>twitter: <a href="http://twitter.com/public_void_grv">@public_void_grv</a></small>
+						<small>email: <a href="mailto:grv@dfdx.me">grv@dfdx.me</a></small>
+					</p>
+				</section>
+				<section>
+					<h2>Рекомендации товаров</h2>
+					<p><img src="images/recs.png" height="200px" style="margin: 0px 0px;"/></p>
+					<ul>
+						<li class="fragment">Хайлоад, онлайн-обучение</li>
+						<li class="fragment">Персонализация</li>
+						<li class="fragment">Почти все в памяти<span class="fragment"> &lt;-- ох ё!</span></li>
+					</ul>
+				</section>
+				<section>
+					<h2>Тысяча посетителей</h2>
+					<img src="images/horse.jpg" height="500px"/>
+				</section>
+				<section>
+					<h2>Миллион посетителей</h2>
+					<img src="images/overload.jpg" height="500px"/>
+				</section>
+				<section>
+					<h2>Как отстрелить ногу</h2>
+					<p>JVM heap:</p>
+					<ul>
+						<li class="fragment">GC начинает кряхтеть</li>
+						<li class="fragment">q99 latency крайне печальный</li>
+						<li class="fragment">За память надо платить $$$</li>
+					</ul>
+				</section>
+				<section>
+					<!-- when you know scala, everything is looking like case class -->
+					<img src="images/case-classes.png" class="plain" height="450px"/>
+					<pre class="fragment"><code>
+case class Pageview(id: String, time: Long)
+					</code></pre>
+				</section>
+				<section>
+					<h2>Quiz</h2>
+					<pre><code>
+case class Pageview(id: String, time: Long)
+
+Pageview(id = "p123", time = 0L)
+					</code></pre>
+					<p>Сколько памяти займет такой класс?</p>
+					<ul class="fragment">
+						<li>~24 байта</li>
+						<li>~48 байт</li>
+						<li>~72 байта <span class="fragment">&lt;-- бинго!</span></li>
+						<li>~96 байт</li>
+					</ol>
+					<!-- case class prep via javap -->
+					<!-- Pageview(productId: String, time: DateTime) as a class with fancy methods -->
+					<!-- jol: what is the actual field layout in memory? -->
+				</section>
+				<section>
+					<h2>case class внутри</h2>
+					<small>jol: live!</small>
+				</section>
+				<section>
+					<h2>Pageview и память</h2>
+					<img src="images/pageview-structure2.png" class="plain" height="500px"/>
+				</section>
+				<section>
+					<h2>Case class внутри</h2>
+					<!--pre><code>
+new Pageview(productId = "p123", time = 150000000L)
+					</code></pre-->
+					<table>
+						<tr><td>Object header</td><td>12</td></tr>
+						<tr><td>String reference</td><td>4</td></tr>
+						<tr><td>String object header</td><td>12</td></tr>
+						<tr><td>String array reference</td><td>4</td></tr>
+						<tr><td>String array header</td><td>12</td></tr>
+						<tr><td>String char array size</td><td>4</td></tr>
+						<tr><td>Char array</td><td>4 or 8</td></tr>
+						<tr><td>millis</td><td>8</td></tr>
+					</table>
+					<p></p>
+				</section>
+				<section data-background-image="images/sad_kitten.jpg">
+					<h2 style="color: #ffffff;">80% RAM коту под хвост</h2>
+					<!--p class="fragment">20 bytes of data / 64 bytes of RAM</p-->
+					<!--img src="images/sad_kitten.jpg" class="fragment" height="300px"/-->
+				</section>
+				<section>
+					<h2>Коллекции</h2>
+					<pre><code>case class ::[B](val head: B, var tl: List[B]) extends List[B] {
+  override def tail : List[B] = tl
+  override def isEmpty: Boolean = false
+} </code></pre>
+				<ul>
+					<li>reference to head</li>
+					<li>reference to next node</li>
+				</ul>
+				</section>
+				<section>
+					<img src="images/list-of-pageviews.png" class="plain"/>
+				</section>
+				<section>
+					<h2>миллион просмотров</h2>
+					<pre><code>
+val pageviews = List.fill(1000000)(_ =>
+  Pageview(
+    id = Random.nextString(4),
+    time = Random.nextLong()
+  )
+)
+					</code></pre>
+					<p>jamm: сколько памяти занимает дерево обьектов?</p>
+				</section>
+				<section>
+					<h2>миллион просмотров</h2>
+					<img src="images/million_pageviews.png" class="fragment"/>
+				</section>
+				<section>
+					<h2>коллекции</h2>
+					<img src="images/million_ints.png" class="fragment"/>
+				</section>
+				<section data-background-image="images/fire.gif">
+					<h1 style="color: white;">Прекрасный мир JVM!</h1>
+					<br/><br/><br/><br/><br/><br/><br/>
+				</section>
+				<section>
+					<h2>а в это время</h2>
+					<pre><code>
+class Pageview {
+  std::string id;
+  int64_t ts;
+};
+
+int main() {
+  std::cout << sizeof(Pageview);
+}</code></pre>
+				</section>
+				<section>
+					<h2>Нативная раскладка</h2>
+					<img src="images/pageview-native2.png" class="plain" height="600px"/>
+				</section>
+				<section>
+					<h2>Нативные векторы</h2>
+					<img src="images/native-vector.png" class="plain" height="600px"/>
+				</section>
+				<section>
+					<h2>Плюсы нативной раскладки</h2>
+					<ul>
+						<li>Нет оверхеда по памяти</li>
+						<li>Кэш CPU счастлив</li>
+					</ul>
+					<p class="fragment">А можно ли так на JVM?</p>
+					<img class="fragment" src="images/bs.jpg" height="300px"/>
+				</section>
+				<section>
+					<h2>Да, но</h2>
+					<ul>
+						<li>Project valhalla<span class="fragment">: далекое будущее</span></li>
+						<li>ChronicleMap<span class="fragment">: сложное API, куча boilerplate</span></li>
+						<li>MapDB<span class="fragment">: только Map, on-disk</span></li>
+						<li>scala-offheap<span class="fragment">: труп</span></li>
+						<li>FlatBuffers<span class="fragment">: фу, кодогенерация</span></li>
+					</ul>
+					<p><img src="images/sad_boy.jpg" height="300px" class="plain fragment"/></p>
+				</section>
+				<section>
+					<h2>Вот если бы...</h2>
+					<!--p><img src="images/what-if.png" height="200px" class="plain"/></p-->
+					<ul>
+						<li class="fragment">API: как у скала-коллекций</li>
+						<li class="fragment">не писать енкодеры-декодеры руками</li>
+						<li class="fragment">не сильно тормозит</li>
+					</ul>
+				</section>
+				<section>
+					<h2>Scala-packed</h2>
+					<img src="images/scala-packed.png" height="500px"/>
+				</section>
+				<section>
+					<h2>Scala-packed</h2>
+					<p>demo: packing pageviews</p>
+				</section>
+				<section data-background-image="images/scala-is-magic.png">
+					<!--img src="images/scala-is-magic.png" class="plain" height="600px"/-->
+				</section>
+				<section>
+					<h2>Что это было: сериализация</h2>
+					<ul>
+						<li class="fragment">кодеки для базовых типов</li>
+						<li class="fragment">кодеки для кейз-классов через shapeless</li>
+					</ul>
+				</section>
+				<section>
+					<h2>Что это было: case classes</h2>
+					<ul>
+						<li class="fragment">case class Pageview(id: String, ts: Long)</li>
+						<li class="fragment">String :: Long :: HNil</li>
+						<li class="fragment">хоп-хоп-хоп HList</li>
+						<li class="fragment">Тайпклассы!</li>
+					</ul>
+					<p><img class="fragment" src="images/doom_levels.png"/></p>
+				</section>
+				<section>
+					<h2>Typeclass derivation levels of doom</h2>
+					<pre><code data-noescape>
+<span class="fragment">case class Easy(id: String, ts: Long)</span>
+
+<span class="fragment">case class Regular(id: String, easy: Easy)</span>
+
+<span class="fragment">case class Hardcore(id: String, other: List[Hardcore])</span>
+
+<span class="fragment">sealed trait Nightmare
+case class Leaf(value: String) extends Nightmare
+case class Node(left: Nightmare, right: Nightmare) extends Nightmare</span>
+					</code></pre>
+				</section>
+				<section>
+					<h2>Shapeless LabelledTypeClass</h2>
+					<p class="fragment">делаешь тайпклассы для:</p>
+					<ul>
+						<li class="fragment">HNil</li>
+						<li class="fragment">H, T &lt;: HList</li>
+						<li class="fragment">CNil (опционально)</li>
+						<li class="fragment">L, R &lt;: Coproduct (опционально)</li>
+					</ul>
+					<p><img  class="fragment" src="images/magic.gif"/></p>
+				</section>
+				<section>
+					<h2>Typeclass derivation 101</h2>
+					<small>demo: typeclasses!</small>
+				</section>
+				<section>
+					<h2>Интеграция с коллекциями</h2>
+					<ul>
+						<li class="fragment">Builder for PackedList</li>
+						<li class="fragment">CanBuildFrom</li>
+						<li class="fragment">боль и страдания</li>
+					</ul>
+				</section>
+				<section>
+					<h2>Списки</h2>
+					<ul>
+						<li class="fragment">Большой Array[Byte]</li>
+						<li class="fragment">Сериализуем Pageview</li>
+						<li class="fragment">Работает даже с примитивами</li>
+					</ul>
+					<img src="images/packedlist.png" class="plain fragment" height="400px"/>
+				</section>
+				<section>
+					<h2>List[Int]</h2>
+					<small>demo: list of ints</small>
+				</section>
+				<section>
+					<h2>Maps</h2>
+					<img src="images/packed-map.png" class="plain" height="550px"/>
+				</section>
+				<section>
+					<h2>Проблемы с Packed*</h2>
+					<ul>
+						<li class="fragment">Immutable: не до конца</li>
+						<li class="fragment">Семантика List/Map отличается</li>
+						<li class="fragment">Не все методы scala.collection.* оптимальны</li>
+						<li class="fragment">Боксинг для примитивов</li>
+					</ul>
+				</section>
+				<section>
+					<h2>Benchmark: List[Int], RAM</h2>
+					<img src="images/packed_list_memory.png"/>
+				</section>
+				<section>
+					<h2>Benchmark: List[Pageview], RAM</h2>
+					<img src="images/packed_pageview.png"/>
+				</section>
+				<section>
+					<h2>Benchmark: List/CPU</h2>
+					<pre><code>
+Benchmark  listType  Mode  Cnt      Score     Error  Units
+filter       Vector  avgt  100  11291.284 ± 117.354  ns/op
+filter         List  avgt  100   6801.318 ±  31.750  ns/op
+filter   PackedList  avgt  100  14877.129 ± 470.324  ns/op
+foreach      Vector  avgt  100   3462.084 ±  79.947  ns/op
+foreach        List  avgt  100   3061.652 ±  30.891  ns/op
+foreach  PackedList  avgt  100   9579.002 ±  80.827  ns/op
+					</code></pre>
+				</section>
+				<section>
+					<h2>Benchmark: Maps/CPU</h2>
+					<pre><code>
+Benchmark            mapType  Mode  Cnt       Score      Error  Units
+build1000                Map  avgt  100  174976.058 ± 4784.830  ns/op
+build1000          PackedMap  avgt  100  324695.548 ± 3652.811  ns/op
+lookupExisting           Map  avgt  100      48.297 ±    0.267  ns/op
+lookupExisting     PackedMap  avgt  100     128.332 ±    1.251  ns/op
+lookupNonExisting        Map  avgt  100      40.084 ±    0.808  ns/op
+lookupNonExisting  PackedMap  avgt  100      25.322 ±    0.751  ns/op
+					</code></pre>
+				</section>
+				<section>
+					<h2>scala-packed в реальной жизни</h2>
+					<ul>
+						<li class="fragment">В проде: <span class="fragment">не дай бог</span></li>
+						<li class="fragment">Баги: много</li>
+						<li class="fragment">Shapeless = <img src="images/heart.png" class="plain" style="margin: -10px 0px;" height="50px"/></li>
+					</ul>
+				</section>
+				<section>
+					<h2>Ссылки</h2>
+					<ul>
+						<li class="fragment">scala-packed: <a href="https://github.com/findify/scala-packed">https://github.com/findify/scala-packed</a></li>
+						<li class="fragment">jol: <a href="http://openjdk.java.net/projects/code-tools/jol/">http://openjdk.java.net/projects/code-tools/jol/</a></li>
+						<li class="fragment">jamm: <a href="https://github.com/jbellis/jamm">https://github.com/jbellis/jamm</a></li>
+					</ul>
+				</section>
+				<section>
+					<h2>Вопросы?</h2>
+					<table>
+						<tr><td>Оскорбления</td><td>100</td><td>200</td><td>300</td><td>400</td><td>500</td></tr>
+						<tr><td>Холивар</td><td>100</td><td>200</td><td>300</td><td>400</td><td>500</td></tr>
+						<tr><td>Алгоритмы</td><td>100</td><td>200</td><td>300</td><td>400</td><td>500</td></tr>
+						<tr><td>Карго культ</td><td>100</td><td>200</td><td>300</td><td>400</td><td>500</td></tr>
+						<tr><td>Эмоциональное выгорание</td><td>100</td><td>200</td><td>300</td><td>400</td><td>500</td></tr>
+						<tr><td>Хаскелл</td><td>100</td><td>200</td><td>300</td><td>400</td><td>500</td></tr>
+						<tr><td colspan=6 style="text-align: right;"><small style="font-size: 16px;">a slide by @nikitonsky</small></td></tr>
+					</table>
+				</section>
+
+			</div>
+		</div>
+
+		<script src="lib/js/head.min.js"></script>
+		<script src="js/reveal.js"></script>
+
+		<script>
+			// More info about config & dependencies:
+			// - https://github.com/hakimel/reveal.js#configuration
+			// - https://github.com/hakimel/reveal.js#dependencies
+			Reveal.initialize({
+				history: true,
+				controls: true,
+				progress: true,
+				width: 1200,
+				transition: 'none',
+				slideNumber: true,
+				dependencies: [
+					{ src: 'plugin/markdown/marked.js' },
+					{ src: 'plugin/markdown/markdown.js' },
+					{ src: 'plugin/notes/notes.js', async: true },
+					{ src: 'plugin/highlight/highlight.js', async: true, callback: function() { hljs.initHighlightingOnLoad(); } }
+				]
+			});
+		</script>
+	</body>
+</html>

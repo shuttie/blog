@@ -1,0 +1,557 @@
+<!doctype html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+
+		<title>scala + graalvm</title>
+
+		<link rel="stylesheet" href="css/reset.css">
+		<link rel="stylesheet" href="css/reveal.css">
+		<link rel="stylesheet" href="css/theme/beige.css">
+
+		<!-- Theme used for syntax highlighting of code -->
+		<link rel="stylesheet" href="lib/css/zenburn.css">
+
+		<!-- Printing and PDF exports -->
+		<script>
+			var link = document.createElement( 'link' );
+			link.rel = 'stylesheet';
+			link.type = 'text/css';
+			link.href = window.location.search.match( /print-pdf/gi ) ? 'css/print/pdf.css' : 'css/print/paper.css';
+			document.getElementsByTagName( 'head' )[0].appendChild( link );
+		</script>
+	</head>
+	<body>
+		<div class="reveal">
+			<div class="slides">
+				<section>
+					<img src="images/oldman.jpg" class="plain" height="300px"/>
+					<h1>Scala & GraalVM</h1>
+					<h3>как мы внедряли и немного приуныли</h3>
+					<p><small>Grebennikov Roman / <a href="http://findify.io">findify.io</a> / <a href="http://twitter.com/public_void_grv">@public_void_grv</a> / <a href="mailto:grv@dfdx.me">grv@dfdx.me</a> / Deep Refactoring / Voronezh / 2020</small></p>
+					
+				</section>
+				<section>
+					<h2>Про Findify</h2>
+					<img src="images/search-results.png" height="200px" style="border:none;"/>
+					<ul>
+						<li class="fragment">white-label eCommerce SaaS search</li>
+						<li class="fragment">1500 магазинов, 20M товаров</li>
+						<li class="fragment">50M посетителей в месяц</li>
+					</ul>
+				</section>
+				<section>
+					<h2>Immutable index</h2>
+					<image src="images/index.png" class="plain"/>
+				</section>
+				<section>
+					<h2>Latency</h2>
+					<img src="images/latency-spikes.png"/>
+				</section>
+				<section>
+					<h2>Latency</h2>
+					<img src="images/latency-spikes-think.png"/>
+				</section>
+				<section>
+					<h2>Latency</h2>
+					<ul>
+						<li class="fragment">Холодный старт JVM</li>
+						<li class="fragment">в ожидании JIT надо делать прогрев</li>
+						<li class="fragment">все равно тормозит</li>
+					</ul>
+				</section>
+				<section>
+					<h2>RSS size</h2>
+					<ul>
+						<li class="fragment">
+						-Xmx150m
+											<p><img src="images/mem.png" height="150px" class="plain"/></p>
+
+					    </li>
+						<li class="fragment">Но RSS почему-то ~580Mb</li>
+						<li class="fragment">А куда делись еще ~400 Mb?</li>
+					</ul>
+				</section>
+				<section>
+					<p><font size="+40">-XX:NativeMemoryTracking</font></p>
+				</section>
+				<section style="top:0px;">
+					<pre><code style="max-height: 600px;">
+Native Memory Tracking:
+
+Total: reserved=762739KB, committed=434835KB
+-                 Java Heap (reserved=153600KB, committed=153600KB)
+                            (mmap: reserved=153600KB, committed=153600KB) 
+ 
+-                     Class (reserved=226935KB, committed=118775KB)
+                            (classes #17076)
+                            (  instance classes #16186, array classes #890)
+                            (malloc=3703KB #47002) 
+                            (mmap: reserved=223232KB, committed=115072KB) 
+                            (  Metadata:   )
+                            (    reserved=100352KB, committed=98560KB)
+                            (    used=96016KB)
+                            (    free=2544KB)
+                            (    waste=0KB =0.00%)
+                            (  Class space:)
+                            (    reserved=122880KB, committed=16512KB)
+                            (    used=14146KB)
+                            (    free=2366KB)
+                            (    waste=0KB =0.00%)
+ 
+-                    Thread (reserved=28858KB, committed=9326KB)
+                            (thread #83)
+                            (stack: reserved=28464KB, committed=8932KB)
+                            (malloc=297KB #424) 
+                            (arena=97KB #164)
+ 
+-                      Code (reserved=251300KB, committed=51088KB)
+                            (malloc=3612KB #18833) 
+                            (mmap: reserved=247688KB, committed=47476KB) 
+ 
+-                        GC (reserved=42649KB, committed=42649KB)
+                            (malloc=4157KB #27063) 
+                            (mmap: reserved=38492KB, committed=38492KB) 
+ 
+-                  Compiler (reserved=11054KB, committed=11054KB)
+                            (malloc=557KB #2108) 
+                            (arena=10497KB #13)
+ 
+-                    Symbol (reserved=23759KB, committed=23759KB)
+                            (malloc=21130KB #212087) 
+                            (arena=2629KB #1) 
+					</code></pre>
+				</section>
+				<section>
+					<h2>Простая математика</h2>
+					<ul>
+						<li class="fragment">400Mb</li>
+						<li class="fragment">1000 магазинов</li>
+						<li class="fragment">3 реплики</li>
+					</ul>
+					<p><img class="fragment" src="images/crying-cat.jpg" height="300px"/></p>
+				</section>
+				<section>
+					<img src="images/crying-cat-12.jpg">
+				</section>
+				<section>
+					<h2>Что делать</h2>
+					<ul>
+						<li class="fragment">GC tuning</li>
+						<li class="fragment">jvm11 AOT, AppCDS</li>
+						<li class="fragment">точная копия трафика для прогрева</li>
+					</ul>
+					<p><img src="images/complicated.png" class="plain fragment"></p>
+				</section>
+				<section>
+					<h1>GraalVM</h1>
+				</section>
+				<section>
+					<h2>GraalVM</h2>
+					<p>Оптимизирующий компилятор с изюминкой:</p>
+					<ul>
+						<li>Замена HotSpot C1/C2
+						<li class="fragment highlight-green">Умеет в AOT: native-image</li>
+						<li>Truffle: интерпретаторы python/js/ruby</li>
+					</ul>
+				</section>
+				<section>
+					<h2>Native-image</h2>
+					<ul>
+						<li class="fragment">Closed-world AOT</li>
+						<li class="fragment">статическая инициализация всего</li>
+						<li class="fragment">нет class/meta space, code/compiler cache</li>
+					</ul>
+					<img src="images/graal-site.png" height="300px" class="fragment"/>
+				</section>
+				<section>
+					<small>demo: scala 2.13 hello world</small>
+				</section>
+				<section>
+					<h2>AOT компиляция</h2>
+					<pre class="fragment"><code>
+if (almostNeverHappens()) {
+  Foo.exec()
+} else {
+  Bar.exec()
+}
+					</code></pre>
+					<ul>
+						<li class="fragment">JIT: профиль выполнения, загружен только Bar</li>
+						<li class="fragment">AOT: статический анализ, загружены Bar и Foo</li>
+					</ul>
+					<p class="fragment">сборка почти всей scala-library и java rt.jar</p>
+				</section>
+				<section>
+					<h2>столкновение с реальностью</h2>
+					<pre><code>
+Detailed message:
+Error: com.oracle.graal.pointsto.constraints.UnsupportedFeatureException: 
+Invoke with MethodHandle argument could not be reduced to at most a single call: 
+java.lang.invoke.MethodHandle.bindTo(Object)
+
+Trace: 
+at parsing java.lang.invoke.MethodHandleImpl.makePairwiseConvertByEditor(MethodHandleImpl.java:221)
+Call path from entry point to 
+java.lang.invoke.MethodHandleImpl.makePairwiseConvertByEditor(MethodHandle, MethodType, boolean, boolean): 
+        no path found from entry point to target method
+
+					</code></pre>
+				</section>
+				<section>
+					<h2>MethodHandle</h2>
+					<ul>
+						<li class="fragment">динамическое связывание</li>
+						<li class="fragment">похоже на вызов метода через reflection</li>
+						<li class="fragment">все проверки - в момент создания MH</li>
+					</ul>
+				</section>
+				<section>
+					<img src="images/scala-bug.png" height="300px"/>
+					<img src="images/graal-bug.png" height="300px"/>
+				</section>
+				<section>
+					<h2>scala 2.13 слишком свежа</h2>
+				</section>
+				<section>
+					<small>demo: scala 2.12 hello world</small>
+				</section>
+				<section>
+					<h2>У вас akka</h2>
+					<img src="images/akka.png" class="fragment"/>
+				</section>
+				<section>
+					<h2>akka, попытка 1</h2>
+					<pre class="fragment"><code style="max-height: 600px;">
+Exception in thread "main" com.typesafe.config.ConfigException$Missing: 
+        No configuration setting found for key 'akka'
+
+    at com.typesafe.config.impl.SimpleConfig.findKeyOrNull(SimpleConfig.java:156)
+    at com.typesafe.config.impl.SimpleConfig.findKey(SimpleConfig.java:149)
+    at com.typesafe.config.impl.SimpleConfig.findOrNull(SimpleConfig.java:176)
+    at com.typesafe.config.impl.SimpleConfig.find(SimpleConfig.java:188)
+    at com.typesafe.config.impl.SimpleConfig.find(SimpleConfig.java:193)
+    at com.typesafe.config.impl.SimpleConfig.getString(SimpleConfig.java:250)
+    at akka.actor.ActorSystem$Settings.&lt;init&gt;(ActorSystem.scala:329)
+    at akka.actor.ActorSystemImpl.&lt;init&gt;(ActorSystem.scala:703)
+    at akka.actor.ActorSystem$.apply(ActorSystem.scala:258)
+    at akka.actor.ActorSystem$.apply(ActorSystem.scala:302)
+    at akka.actor.ActorSystem$.apply(ActorSystem.scala:246)
+    at com.example.Akka$.main(Akka.scala:12)
+    at com.example.Akka.main(Akka.scala)
+					</code></pre>
+				</section>
+				<section>
+					<h2>Ресурсы</h2>
+					<blockquote class="fragment">By default, the native-image builder will not integrate any of the resources which are on the classpath during image building into the image it creates.</blockquote>
+					<blockquote class="fragment">-H:IncludeResources=.*</blockquote>
+				</section>
+				<section>
+					<h2>Akka, попытка 2</h2>
+					<pre class="fragment"><code style="max-height: 600px;">
+Exception in thread "main" java.lang.ClassNotFoundException: akka.event.DefaultLoggingFilter
+    at com.oracle.svm.core.hub.ClassForNameSupport.forName(ClassForNameSupport.java:60)
+    at java.lang.Class.forName(DynamicHub.java:1174)
+    at akka.actor.ReflectiveDynamicAccess.$anonfun$getClassFor$1(ReflectiveDynamicAccess.scala:22)
+    at scala.util.Try$.apply(Try.scala:213)
+    at akka.actor.ReflectiveDynamicAccess.getClassFor(ReflectiveDynamicAccess.scala:21)
+    at akka.actor.ReflectiveDynamicAccess.createInstanceFor(ReflectiveDynamicAccess.scala:40)
+    at akka.actor.ActorSystemImpl.&lt;init&gt;(ActorSystem.scala:807)
+    at akka.actor.ActorSystem$.apply(ActorSystem.scala:258)
+    at akka.actor.ActorSystem$.apply(ActorSystem.scala:302)
+    at akka.actor.ActorSystem$.apply(ActorSystem.scala:246)
+    at com.example.Akka$.main(Akka.scala:12)
+    at com.example.Akka.main(Akka.scala)
+					</code></pre>
+				</section>
+				<section>
+					<h2>Reflection</h2>
+					<ul>
+						<li class="fragment">Class.forName(clazz: String)</li>
+						<li class="fragment">необходима таблица соответствий<br/> <b>className -> Class[_]</b></li>
+						<li class="fragment">-H:ReflectionConfigurationFiles=...</li>
+					</ul>
+				</section>
+				<section>
+					<pre><code style="max-height: 600px;">[
+  {
+    "name": "akka.actor.Actor",
+    "allDeclaredConstructors": true,
+    "allPublicConstructors": true
+  },
+  {
+    "name": "akka.actor.ActorCell",
+    "fields": [
+      {
+        "name": "props",
+        "allowWrite": true
+      }
+    ]
+  },
+  {
+    "name": "akka.actor.ActorLogging",
+    "allDeclaredConstructors": true,
+    "allPublicConstructors": true
+  },
+  ...
+					</code></pre>
+				</section>
+				<section>
+					<h2>Reflection</h2>
+					<ul>
+						<li class="fragment">Можно руками (64 класса для akka 2.5.25)</li>
+						<li class="fragment">Гитхаб: <a href="https://github.com/vmencik/akka-graal-native">github.com/vmencik/akka-graal-native</a></li>
+						<li class="fragment"><i class="fragment highlight-green">Reflection tracing agent</i></li>
+					</ul>
+				</section>
+				<section>
+					<h2>Reflection tracing agent?</h2>
+					<ul>
+						<li class="fragment">агент для аудита reflection, JNI и ресурсов</li>
+						<li class="fragment">при выходе пишет конфиг для native-image</li>
+					</ul>
+					<p></p>
+					<pre class="fragment"><code>
+java -agentlib:native-image-agent=config-output-dir=conf -jar app.jar
+					</code></pre>
+				</section>
+				<section>
+					<h2>Akka, попытка 3</h2>
+
+					<pre class="fragment"><code style="max-height: 600px;">
+[com.example.akka:6885]    classlist:   8,802.32 ms
+[com.example.akka:6885]        (cap):   1,655.73 ms
+[com.example.akka:6885]        setup:   2,116.11 ms
+Warning: RecomputeFieldValue.FieldOffset automatic substitution failed. 
+The automatic substitution registration was attempted because a call to 
+sun.misc.Unsafe.objectFieldOffset(Field) was detected in the static 
+initializer of akka.actor.LightArrayRevolverScheduler$. 
+Detailed failure reason(s): The field akka.actor.LightArrayRevolverScheduler$.akka$actor$LightArrayRevolverScheduler$$taskOffset, 
+where the value produced by the field offset computation is stored, is not static.
+[com.example.akka:6885]     analysis:  21,683.98 ms
+
+Error: Error encountered while parsing akka.actor.LightArrayRevolverScheduler$TaskHolder.extractTask(java.lang.Runnable) 
+Parsing context:
+        parsing akka.actor.LightArrayRevolverScheduler$TaskHolder.cancel(LightArrayRevolverScheduler.scala:345)
+        parsing akka.actor.LightArrayRevolverScheduler.akka$actor$LightArrayRevolverScheduler$$schedule(LightArrayRevolverScheduler.scala:178)
+        parsing akka.actor.LightArrayRevolverScheduler.scheduleOnce(LightArrayRevolverScheduler.scala:139)
+        parsing akka.dispatch.MessageDispatcher.akka$dispatch$MessageDispatcher$$scheduleShutdownAction(AbstractDispatcher.scala:182)
+        parsing akka.dispatch.MessageDispatcher$$anon$3.run(AbstractDispatcher.scala:233)
+        ...	</code></pre>
+				</section>
+				<section>
+					<h2>Unsafe</h2>
+					<ul>
+						<li class="fragment"><b>Unsafe</b> работает</li>
+						<li class="fragment">Object layout не совпадает с HotSpot</li>
+						<li class="fragment">Unsafe.objectFieldOffset вернет оффсет не туда</li>
+						<li class="fragment">и ...</li>
+					</ul>
+					<pre class="fragment"><code>
+  Segmentation fault (core dumped)
+				</code></pre>
+				</section>
+				<section>
+					<h2>import com.oracle.svm.core.annotate._</h2>
+					<pre class="fragment"><code>
+class Danger {
+  def doCrazyShit = {
+    // тут стрельба в ногу
+  }
+}
+					</code></pre>
+					<pre class="fragment"><code>
+@TargetClass(className = "com.example.Danger")
+class DangerPatch {
+  @Substitute
+  def doCrazyShit = {
+    // более человечная реализация
+  }
+}
+					</code></pre>
+				</section>
+				<section>
+					<h2>Akka, попытка 4</h2>
+					<pre class="fragment"><code>
+[com.example.akka:9499]    classlist:   8,071.53 ms
+[com.example.akka:9499]        (cap):   1,510.22 ms
+[com.example.akka:9499]        setup:   2,392.74 ms
+[com.example.akka:9499]     analysis:  41,560.60 ms
+Error: Class initialization of akka.protobuf.DescriptorProtos failed. 
+  
+  Use the option --initialize-at-run-time=akka.protobuf.DescriptorProtos 
+  to explicitly request delayed initialization of this class.
+					</code></pre>
+				</section>
+				<section>
+					<h2>build/run-time init</h2>
+					<pre class="fragment"><code>
+// извините за джаву
+public class StaticFoo {
+    static int value = 0
+    static {
+        // init logic
+        // on class load
+        value = 42
+    }
+}
+					</code></pre>
+					<ul>
+						<li class="fragment">run-time init: исполнить при загрузке класса</li>
+						<li class="fragment">build-time init: исполнить при компиляции, сохранить стейт</li>
+						<li class="fragment"><b>--initialize-at-run-time=akka.protobuf.DescriptorProtos</b></li>
+					</ul>
+				</section>
+				<section>
+					<h2>Akka, попытка 5</h2>
+					<pre class="fragment"><code>
+Exception in thread "main" java.security.NoSuchAlgorithmException: 
+Error constructing implementation 
+(algorithm: SunX509, provider: SunJSSE, class: sun.security.ssl.KeyManagerFactoryImpl$SunX509)
+        at java.security.Provider$Service.newInstance(Provider.java:1621)
+        at sun.security.jca.GetInstance.getInstance(GetInstance.java:236)
+        at sun.security.jca.GetInstance.getInstance(GetInstance.java:164)
+        at javax.net.ssl.KeyManagerFactory.getInstance(KeyManagerFactory.java:137)
+        at com.typesafe.sslconfig.ssl.DefaultKeyManagerFactoryWrapper.&lt;init&gt;(SSLContextBuilder.scala:76)
+        at com.typesafe.sslconfig.akka.AkkaSSLConfig.buildKeyManagerFactory(AkkaSSLConfig.scala:103)
+        at com.typesafe.sslconfig.akka.AkkaSSLConfig.&lt;init&gt;(AkkaSSLConfig.scala:78)
+        at com.typesafe.sslconfig.akka.AkkaSSLConfig$.createExtension(AkkaSSLConfig.scala:29)
+        at com.typesafe.sslconfig.akka.AkkaSSLConfig$.createExtension(AkkaSSLConfig.scala:19)
+...
+					</code></pre>
+				</section>
+				<section>
+					<h2>SSL/TLS</h2>
+					<p>JCA Security Services on Substrate VM [1]:</p>
+					<blockquote><small>By default a native image is built with support for the SecureRandom and MessageDigest engines from the SUN provider. These are core security services needed by the VM itself. All the other Java security services (Signature, Cipher, Mac, KeyPair, KeyGenerator, KeyFactory, KeyStore, etc.) must be enabled adding the <b>--enable-all-security-services</b> option to the native-image command.</small></blockquote><blockquote><small> The reason behind enabling only core security services by default is that you can start with a basic image and add more security services as you need them. This helps keeping the overall image size small.</small></blockquote>
+					<br><br>
+					<small>[1]: https://github.com/oracle/graal/blob/master/substratevm/JCA-SECURITY-SERVICES.md</small>
+				</section>
+				<section>
+					<h2>Akka, попытка 6</h2>
+				<pre><code style="max-height: 600px;">
+  [com.example.akka:9499]    classlist:   8,112.29 ms
+  [com.example.akka:9499]        (cap):   1,485.50 ms
+  [com.example.akka:9499]        setup:   1,931.82 ms
+  [com.example.akka:9499]   (typeflow):  28,675.37 ms
+  [com.example.akka:9499]    (objects):  27,308.50 ms
+  [com.example.akka:9499]   (features):   2,637.91 ms
+  [com.example.akka:9499]     analysis:  60,902.60 ms
+  [com.example.akka:9499]     (clinit):   2,559.93 ms
+  [com.example.akka:9499]     universe:   4,033.60 ms
+  [com.example.akka:9499]      (parse):   6,369.08 ms
+  [com.example.akka:9499]     (inline):   8,557.53 ms
+  [com.example.akka:9499]    (compile):  39,604.12 ms
+  [com.example.akka:9499]      compile:  56,653.69 ms
+  [com.example.akka:9499]        image:  23,930.95 ms
+  [com.example.akka:9499]        write:     809.89 ms
+  [com.example.akka:9499]      [total]: 156,548.71 ms
+				</code></pre>
+				</section>
+				<section>
+					<img src="images/yeltsin.gif" class="plain" height="400px"/>
+				</section>
+				<section>
+					<p><small>demo: http server</small></p>
+				</section>
+				<section>
+					<h2>performance: latency</h2>
+					<p><small>ab -n 10000 -c 4 http://localhost:8080/</small></p>
+
+					<table class="fragment">
+						<thead>
+							<td>Percentile</td>
+							<td>JVM cold</td>
+							<td>JVM hot</td>
+							<td>Native image</td>
+						</thead>
+						<tbody>
+							<tr><td>50%</td><td>6ms</td><td>1ms</td><td>1ms</td></tr>
+							<tr><td>80%</td><td>10ms</td><td>1ms</td><td>2ms</td></tr>
+							<tr><td>90%</td><td>16ms</td><td>1ms</td><td>2ms</td></tr>
+							<tr><td>95%</td><td>21ms</td><td>2ms</td><td>2ms</td></tr>
+							<tr><td>98%</td><td>28ms</td><td>2ms</td><td>3ms</td></tr>
+							<tr><td>99%</td><td>34ms</td><td>8ms</td><td>5ms</td></tr>
+						</tbody>
+					</table>
+				</section>
+				<section>
+					<h2>performance</h2>
+					<p>JVM JIT Compilers Benchmarks Report 19.11 [1]</p>
+					<ul>
+						<li class="fragment">C2 JIT vs Graal JIT, OpenJDK 13</li>
+						<li class="fragment">24 микробенчмарка</li>
+						<li class="fragment">C2 побеждает в 65%</li>
+					</ul>
+					<br><br><br><br><br>
+					<p><small>[1]: https://ionutbalosin.com/2019/11/jvm-jit-compilers-benchmarks-report-19-11/ </small></p>
+				</section>
+				<section>
+					<h2>performance: escape analysis</h2>
+					<img src="images/graal_escape.png"/>
+				</section>
+				<section>
+					<h2>performance: if condition</h2>
+					<img src="images/graal_ifcond.png" height="400px"/>
+				</section>
+				<!--section>
+					<h2>scala 2.13</h2>
+					todo
+				</section-->
+				<section>
+					<h2>выводы</h2>
+					<ul>
+						<li class="fragment">и правда работает;</li>
+						<li class="fragment">не серебряная пуля;</li>
+						<li class="fragment">надо уметь готовить;</li>
+						<li class="fragment">легко прострелить ногу.</li>
+					</ul>
+					<br>
+					<p class="fragment">¯\_(ツ)_/¯</p>
+				</section>
+				<section>
+					<h2>Ссылки</h2>
+					<ul>
+						<li>слайды: <a href="http://dfdx.me/talks/graalvm">http://dfdx.me/talks/graalvm</a></li>
+						<li>код: <a href="http://dfdx.me/talks/graalvm">https://github.com/shuttie/graal-demos</a></li>
+					</ul>
+				</section>
+                <section>
+                    <h2>Вопросы?</h2>
+                    <table>
+                        <tr><td>F с дыркой</td><td>100</td><td>200</td><td>300</td><td>400</td><td>500</td></tr>
+                        <tr><td>Холивар</td><td>100</td><td>200</td><td>300</td><td>400</td><td>500</td></tr>
+                        <tr><td>Code of Conduct</td><td>100</td><td>200</td><td>300</td><td>400</td><td>500</td></tr>
+                        <tr><td>Карго культ</td><td>100</td><td>200</td><td>300</td><td>400</td><td>500</td></tr>
+                        <tr><td>Олег</td><td>100</td><td>200</td><td>300</td><td>400</td><td>500</td></tr>
+                        <tr><td>Хаскелл</td><td>100</td><td>200</td><td>300</td><td>400</td><td>500</td></tr>
+                        <tr><td colspan=6 style="text-align: right;"><small style="font-size: 16px;">a slide by @nikitonsky</small></td></tr>
+                    </table>
+                </section>
+			</div>
+		</div>
+
+		<script src="js/reveal.js"></script>
+
+		<script>
+			// More info about config & dependencies:
+			// - https://github.com/hakimel/reveal.js#configuration
+			// - https://github.com/hakimel/reveal.js#dependencies
+			Reveal.initialize({
+				history: true,
+				controls: true,
+				progress: true,
+				width: 1200,
+				transition: 'none',
+				slideNumber: true,
+				dependencies: [
+					{ src: 'plugin/markdown/marked.js' },
+					{ src: 'plugin/markdown/markdown.js' },
+					{ src: 'plugin/notes/notes.js', async: true },
+					{ src: 'plugin/highlight/highlight.js', async: true }
+				]
+			});
+		</script>
+	</body>
+</html>

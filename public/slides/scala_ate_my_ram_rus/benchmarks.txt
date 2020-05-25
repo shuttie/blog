@@ -1,0 +1,25 @@
+Benchmark            mapType  Mode  Cnt       Score      Error  Units
+build1000                Map  avgt  100  174976.058 ± 4784.830  ns/op
+build1000          PackedMap  avgt  100  324695.548 ± 3652.811  ns/op
+lookupExisting           Map  avgt  100      48.297 ±    0.267  ns/op
+lookupExisting     PackedMap  avgt  100     128.332 ±    1.251  ns/op
+lookupNonExisting        Map  avgt  100      40.084 ±    0.808  ns/op
+lookupNonExisting  PackedMap  avgt  100      25.322 ±    0.751  ns/op
+
+
+Benchmark  listType  Mode  Cnt      Score     Error  Units
+filter       Vector  avgt  100  11291.284 ± 117.354  ns/op
+filter         List  avgt  100   6801.318 ±  31.750  ns/op
+filter   PackedList  avgt  100  14877.129 ± 470.324  ns/op
+foreach      Vector  avgt  100   3462.084 ±  79.947  ns/op
+foreach        List  avgt  100   3061.652 ±  30.891  ns/op
+foreach  PackedList  avgt  100   9579.002 ±  80.827  ns/op
+
+images to draw:
+* case classes to the rescue!
+* pageview memory layout
+* List[Pageview] memory layout
+* native memory layout
+* vector<pageview> memory layout
+* list layout with scala-packed
+* map layout with scala-packed

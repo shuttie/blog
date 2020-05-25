@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Posts on Roman Grebennikov</title>
+    <link>http://example.org/post/</link>
+    <description>Recent content in Posts on example.org</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en-us</language>
+    <copyright>© Roman Grebennikov</copyright>
+    <lastBuildDate>Wed, 20 May 2020 00:00:00 +0000</lastBuildDate>
+    
+    <atom:link href="http://example.org/post/index.xml" rel="self" type="application/rss+xml" />
+    
+    <item>
+      <title>Speeding up Apache Flink string serialization</title>
+      <link>http://example.org/post/2020_flink_serialization/</link>
+      <pubDate>Wed, 20 May 2020 00:00:00 +0000</pubDate>
+      
+      <guid>http://example.org/post/2020_flink_serialization/</guid>
+      <description>
+      
+      Because it can be extremely slow in some not-so-rare cases
+      
+      </description>
+    </item>
+    
+  </channel>
+</rss>

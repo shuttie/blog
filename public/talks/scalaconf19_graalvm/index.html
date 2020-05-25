@@ -1,0 +1,200 @@
+<!DOCTYPE html>
+<html lang="en"><head>
+
+  <meta name="generator" content="Hugo 0.69.0" />
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="author" content="RG"><meta name="keywords" content="scala,graalvm,performance"><meta name="description" content="О GraalVM не слышал только ленивый: новые оптимизации, интеграция с Python/Ruby/JS и AOT-компиляция в нативный код. На любой JVM-конференции из каждого утюга рассказывают, как изменится наша жизнь к лучшему с приходом коммунизма^W этой технологии"><meta property="og:title" content="Getting depressed with GraalVM [russian]" />
+<meta property="og:description" content="О GraalVM не слышал только ленивый: новые оптимизации, интеграция с Python/Ruby/JS и AOT-компиляция в нативный код. На любой JVM-конференции из каждого утюга рассказывают, как изменится наша жизнь к лучшему с приходом коммунизма^W этой технологии" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="http://example.org/talks/scalaconf19_graalvm/" />
+<meta property="article:published_time" content="2019-11-26T00:00:00+00:00" />
+<meta property="article:modified_time" content="2019-11-26T00:00:00+00:00" />
+<meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="Getting depressed with GraalVM [russian]"/>
+<meta name="twitter:description" content="О GraalVM не слышал только ленивый: новые оптимизации, интеграция с Python/Ruby/JS и AOT-компиляция в нативный код. На любой JVM-конференции из каждого утюга рассказывают, как изменится наша жизнь к лучшему с приходом коммунизма^W этой технологии"/>
+
+  <link rel="stylesheet" type="text/css" media="screen" href="http://example.org/css/normalize.css" />
+  <link rel="stylesheet" type="text/css" media="screen" href="http://example.org/css/main.css" />
+  <link rel="stylesheet" type="text/css" media="screen" href="http://example.org/css/all.css" />
+<link rel="stylesheet" href="http://example.org/css/katex.min.css" crossorigin="anonymous">
+  <script defer src="http://example.org/js/katex.min.js" integrity="sha384-y23I5Q6l+B6vatafAwxRu/0oK/79VlbSz7Q9aiSZUvyWYIYsd+qj+o24G5ZU2zJz" crossorigin="anonymous"></script>
+  <script defer src="http://example.org/js/auto-render.min.js" integrity="sha384-kWPLUVMOks5AQFrykwIup5lo0m3iMkkHrD0uJ4H5cjeGihAutqP0yW0J6dpFiVkI" crossorigin="anonymous" onload="renderMathInElement(document.body);"></script><link rel="stylesheet" type="text/css" media="screen" href="http://example.org/css/css/custom.css" /><title>Getting depressed with GraalVM [russian] | Roman Grebennikov</title></head>
+<body><header>
+
+  <div id="avatar">
+    <a href="http://example.org/">
+      <img src="/img/avatar.jpg" alt="Roman Grebennikov">
+    </a>
+  </div>
+
+  <div id="titletext"><h2 id="title"><a href="http://example.org/">Roman Grebennikov</a></h2></div>
+  <div id="title-description"><p id="subtitle">A personal blog &amp; info page</p><div id=social>
+    <nav>
+      <ul><li><a href="https://github.com/shuttie"><i title="Github" class="icons fab fa-github"></i></a></li><li><a href="https://www.linkedin.com/in/romangrebennikov/"><i title="Linkedin" class="icons fab fa-linkedin"></i></a></li><li><a href="https://www.twitter.com/public_void_grv"><i title="Twitter" class="icons fab fa-twitter"></i></a></li><li><a href="https://stackoverflow.com/users/2622697/shutty"><i title="Twitter" class="icons fab fa-stack-overflow"></i></a></li><li><a href="https://github.com/shuttie"><i title="Github" class="icons fab fa-github"></i></a></li><li><a href="mailto://grv@dfdx.me"><i title="Email" class="icons fas fa-envelope"></i></a></li><li><a href="/index.xml"><i title="RSS" class="icons fas fa-rss"></i></a></li></ul>
+    </nav>
+  </div>
+  </div>
+  <div id="mainmenu">
+    <nav>
+      <ul>
+        
+        <li><a href="/">Home</a></li>
+        
+        <li><a href="/post">Posts</a></li>
+        
+        <li><a href="/talks">Talks</a></li>
+        
+        <li><a href="/files/grebennikov_cv_2020.pdf">CV</a></li>
+        
+        <li><a href="/about">About</a></li>
+        
+      </ul>
+    </nav>
+  </div>
+</header>
+<main><div class="post">
+<div class="author">
+
+</div>
+<div class="post-header">
+
+<div class="meta">
+
+<div class="date">
+<span class="day">26</span>
+<span class="rest">Nov 2019</span>
+</div>
+
+</div>
+
+<div class="matter">
+<h1 class="title">Getting depressed with GraalVM [russian]</h1>
+</div>
+</div>
+<div class="markdown">
+<p>О GraalVM не слышал только ленивый: новые оптимизации, интеграция с Python/Ruby/JS и AOT-компиляция в нативный код. На любой JVM-конференции из каждого утюга рассказывают, как изменится наша жизнь к лучшему с приходом коммунизма^W этой технологии. Но вот о чем обычно не рассказывают — так это об ограничениях и особенностях этой технологии, с которыми вы наверняка столкнетесь, если попытаетесь пойти хоть немного дальше hello-world.</p>
+<p>В этом докладе мы попытаемся выяснить, ради чего это может понадобиться на практике и какие проблемы могут возникнуть при попытке протащить GraalVM в свой scala-проект:</p>
+<ul>
+<li>AOT-компиляция не компилирует;</li>
+<li>АОТ-компиляция таки иногда компилирует, но код почему-то тормозит;</li>
+<li>Reflection не рефлексирует;</li>
+<li>в тридесятой транзитивной зависимости нашелся хитрый неподдерживаемый MethodHandle;</li>
+<li>у вас Akka.</li>
+</ul>
+<p>Presented at Scalaconf 2019 Moscow</p>
+<p><a href="http://scalaconf.ru/2019/abstracts/6122">Link</a> | <a href="https://youtu.be/Pht0G2sqX4Q">Video</a> | <a href="/slides/scalaconf19_graalvm">Slides</a>
+
+<div style="position: relative; padding-bottom: 56.25%; height: 0; overflow: hidden;">
+  <iframe src="https://www.youtube.com/embed/Pht0G2sqX4Q" style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; border:0;" allowfullscreen title="YouTube Video"></iframe>
+</div>
+</p>
+
+</div>
+<div class="tags">
+
+
+
+
+
+
+
+
+
+
+
+<div class="taxosfloating_left">
+<p>Tags</p>
+</div>
+<div class="termsfloating_right">
+<p>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<a href="/tags/graalvm/"> graalvm </a>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<a href="/tags/performance/"> performance </a>
+
+
+
+
+
+
+
+
+
+
+
+
+
+<a href="/tags/scala/"> scala </a>
+
+
+
+
+
+
+
+
+
+
+
+</div>
+<div class="clearit"></div>
+
+
+
+
+
+</div></div>
+
+</main><footer>
+ © Roman Grebennikov 
+
+
+    
+
+</footer>
+</body>
+</html>
